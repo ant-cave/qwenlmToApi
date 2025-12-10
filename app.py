@@ -6,7 +6,6 @@ import os
 from rich import print
 import json
 
-
 class MainApp:
     def __init__(self, driver_num=4, headless=True):
         
@@ -44,15 +43,12 @@ class MainApp:
                 except Exception as e:
                     print(f"创建 driver 失败: {e}")
     
-
     def _create_single_driver(self):
-        options = uc.ChromeOptions()
+        # 创建单个 driver 的辅助方法
+        options = webdriver.EdgeOptions()
         if self.headless:
-            options.add_argument('--headless=new')  # 注意：undetected-chromedriver 的 headless 模式需谨慎，部分网站仍可检测
-        # 禁用自动化提示
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        driver = uc.Chrome(options=options, version_main=131)  # 指定 Chrome 主版本号（如 131），避免自动下载错误
-        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+            options.add_argument('--headless')
+        driver = webdriver.Edge(options=options)
         return driver
     
     def run(self):
